@@ -8,18 +8,18 @@ In this section we add measurements to the factor graph that will help
 us actually *localize* the robot over time. The example also serves as a
 tutorial on creating new factor types.
 
-|image: 5\_Users\_dellaert\_git\_github\_doc\_images\_FactorGraph2.png|
-Figure 4: Robot localization factor graph with unary measurement factors
-at each time step.
+.. _FactorGraph2:
+.. figure:: images/FactorGraph2.png
+    :align: center
+
+    Robot localization factor graph with unary measurement factors at each time step.
 
 In particular, we use **unary measurement factors** to handle external
-measurements. The example from Section `2 <#sec_Robot_Localization>`__
+measurements. The example from :ref:`modeling-robot-motion`
 is not very useful on a real robot, because it only contains factors
 corresponding to odometry measurements. These are imperfect and will
 lead to quickly accumulating uncertainty on the last robot pose, at
-least in the absence of any external measurements (see Section
-`2.5 <#subsec_Full_Posterior_Inference>`__). Figure
-`4 <#fig_LocalizationFG>`__ shows a new factor graph where the prior
+least in the absence of any external measurements (see :ref:`full-posterior-inference`). :numref:`FactorGraph2` shows a new factor graph where the prior
 :math:`f_{0}\left( x_{1} \right)` is omitted and instead we added three
 unary factors :math:`f_{1}\left( {x_{1};z_{1}} \right)`,
 :math:`f_{2}\left( {x_{2};z_{2}} \right)`, and
@@ -28,8 +28,7 @@ measurement :math:`z_{t}`, respectively. Such unary factors are
 applicable for measurements :math:`z_{t}` that depend *only* on the
 current robot pose, e.g., GPS readings, correlation of a laser
 range-finder in a pre-existing map, or indeed the presence of absence of
-ceiling lights (see `Dellaert et al. <#LyXCite-Dellaert99b>`__ (1999)
-for that amusing example).
+ceiling lights (see [1]_ for that amusing example).
 
 Defining Custom Factors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,11 +53,13 @@ fact, the likelihood :math:`L\left( {q;m} \right)` is *defined* as any
 function of :math:`q` proportional to
 :math:`P\left( m \middle| q \right)`.
 
-Listing `3.2 <#listing_LocalizationFactor>`__ shows an example on how to
+:numref:`custom-factor-unary` shows an example on how to
 define the custom factor class ***UnaryFactor*** which implements a
 “GPS-like” measurement likelihood:
 
-::
+.. _custom-factor-unary:
+.. code-block:: cpp
+    :caption: Define a custom factor class **UnaryFactor**
 
     class UnaryFactor: public NoiseModelFactor1<Pose2> {
       double mx_, my_; ///< X and Y measurements
@@ -85,8 +86,7 @@ important function to has be implemented by every factor class is
 ***evaluateError***, which should return
 :math:`E\left( q \right) = {h\left( q \right) - m}` which is done on
 line 12. Importantly, because we want to use this factor for nonlinear
-optimization (see e.g., `Dellaert and Kaess
-2006 <#LyXCite-Dellaert06ijrr>`__ for details), whenever the optional
+optimization (see e.g., [2]_ for details), whenever the optional
 argument :math:`H` is provided, a ***Matrix*** reference, the function
 should assign the **Jacobian** of :math:`h\left( q \right)` to it,
 evaluated at the provided value for :math:`q`. This is done for this
@@ -117,7 +117,9 @@ Using Custom Factors
 The following C++ code fragment illustrates how to create and add custom
 factors to a factor graph:
 
-::
+.. _unary-code:
+.. code-block:: cpp
+    :caption: Add unary measurement factors
 
     // add unary measurement factors, like GPS, on all three poses
     noiseModel::Diagonal::shared_ptr unaryNoise =
@@ -126,7 +128,7 @@ factors to a factor graph:
     graph.add(boost::make_shared<UnaryFactor>(2, 2.0, 0.0, unaryNoise));
     graph.add(boost::make_shared<UnaryFactor>(3, 4.0, 0.0, unaryNoise));
 
-In Listing `3.3 <#listing_LocalizationExample2>`__, we create the noise
+In :numref:`unary-code`, we create the noise
 model on line 2-3, which now specifies two standard deviations on the
 measurements :math:`m_{x}` and :math:`m_{y}`. On lines 4-6 we create
 ***shared\_ptr*** versions of three newly created ***UnaryFactor***
@@ -199,3 +201,6 @@ by odometry from two sides.
 You might now be wondering how we produced these figures. The answer is
 via the MATLAB interface of GTSAM, which we will demonstrate in the next
 section.
+
+.. [1] Dellaert, F., Fox, D., Burgard, W., and Thrun, S., "Using the Condensation Algorithm for Robust, Vision-based Mobile Robot Localization", in IEEE Conf. on Computer Vision and Pattern Recognition (CVPR) (1999).
+.. [2] Dellaert, F. and Kaess, M., "Square Root SAM: Simultaneous Localization and Mapping via Square Root Information Smoothing", Intl. J. of Robotics Research 25, 12 (2006), pp. 1181--1203.

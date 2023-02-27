@@ -1,3 +1,4 @@
+.. _modeling-robot-motion:
 Modeling Robot Motion
 -----------------------
 
@@ -8,11 +9,14 @@ Before diving into a SLAM example, let us consider the simpler problem
 of modeling robot motion. This can be done with a *continuous* Markov
 chain, and provides a gentle introduction to GTSAM.
 
-|image: 4\_Users\_dellaert\_git\_github\_doc\_images\_FactorGraph.png|
-Figure 3: Factor graph for robot localization.
+.. _FactorGraph:
+.. figure:: images/FactorGraph.png
+    :align: center
 
-The factor graph for a simple example is shown in Figure
-`3 <#fig_OdometryFG>`__. There are three variables :math:`x_{1}`,
+    Factor graph for robot localization. 
+
+The factor graph for a simple example is shown in :numref:`FactorGraph`. 
+There are three variables :math:`x_{1}`,
 :math:`x_{2}`, and :math:`x_{3}` which represent the poses of the robot
 over time, rendered in the figure by the open-circle variable nodes. In
 this example, we have one **unary factor**
@@ -27,7 +31,7 @@ Creating a Factor Graph
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following C++ code, included in GTSAM as an example, creates the
-factor graph in Figure `3 <#fig_OdometryFG>`__:
+factor graph in :numref:`FactorGraph`:
 
 ::
 
@@ -167,6 +171,7 @@ solution :math:`x_{1} = \left( {0,0,0} \right)`,
 :math:`x_{2} = \left( {2,0,0} \right)`, and
 :math:`x_{3} = \left( {4,0,0} \right)` is recovered.
 
+.. _full-posterior-inference:
 Full Posterior Inference
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
