@@ -7,18 +7,19 @@ Loop Closure Constraints
 The simplest instantiation of a SLAM problem is **PoseSLAM**, which
 avoids building an explicit map of the environment. The goal of SLAM is
 to simultaneously localize a robot and map the environment given
-incoming sensor measurements (`Durrant-Whyte and Bailey,
-2006 <#LyXCite-DurrantWhyte06ram>`__). Besides wheel odometry, one of
+incoming sensor measurements [1]_. Besides wheel odometry, one of
 the most popular sensors for robots moving on a plane is a 2D
 laser-range finder, which provides both odometry constraints between
 successive poses, and loop-closure constraints when the robot re-visits
 a previously explored part of the environment.
 
-|image: 8\_Users\_dellaert\_git\_github\_doc\_images\_FactorGraph3.png|
-Figure 6: Factor graph for PoseSLAM.
+.. _FactorGraph3:
+.. figure:: images/FactorGraph3.png
+    :align: center
 
-A factor graph example for PoseSLAM is shown in Figure
-`6 <#fig_Pose2SLAM>`__. The following C++ code, included in GTSAM as an
+    Factor graph for PoseSLAM.
+
+A factor graph example for PoseSLAM is shown in :numref:`FactorGraph3`. The following C++ code, included in GTSAM as an
 example, creates this factor graph in code:
 
 ::
@@ -51,13 +52,15 @@ first visited this location. This is illustrated for poses :math:`x_{5}`
 and :math:`x_{2}`, and generates the (red) loop closing factor
 :math:`f_{5}\left( {x_{5},x_{2}} \right)`.
 
-|image: 9\_Users\_dellaert\_git\_github\_doc\_images\_example1.png|
-Figure 7: The result of running optimize on the factor graph in Figure
-`6 <#fig_Pose2SLAM>`__.
+.. _example1:
+.. figure:: images/example1.png
+    :align: center
+
+    The result of running optimize on the factor graph in :numref:`FactorGraph3`
 
 We can optimize this factor graph as before, by creating an initial
 estimate of type ***Values***, and creating and running an optimizer.
-The result is shown graphically in Figure `7 <#fig_example>`__, along
+The result is shown graphically in :numref:`example1`, along
 with covariance ellipses shown in green. These covariance ellipses in 2D
 indicate the marginal over position, over all possible orientations, and
 show the area which contain 68.26% of the probability mass (in 1D this
@@ -175,14 +178,16 @@ before and after optimization.
 Reading and Optimizing Pose Graphs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-|image: 10\_Users\_dellaert\_git\_github\_doc\_images\_w100-result.png|
-Figure 8: MATLAB plot of small Manhattan world example with 100 poses
-(due to Ed Olson). The initial estimate is shown in green. The optimized
-trajectory, with covariance ellipses, in blue.
+.. _w100-result:
+.. figure:: images/w100-result.png
+    :align: center
+
+    MATLAB plot of small Manhattan world example with 100 poses
+    (due to Ed Olson). The initial estimate is shown in green. The optimized
+    trajectory, with covariance ellipses, in blue.
 
 The ability to work in MATLAB adds a much quicker development cycle, and
-effortless graphical output. The optimized trajectory in Figure
-`8 <#fig_w100>`__ was produced by the code below, in which *load2D*
+effortless graphical output. The optimized trajectory in :numref:`w100-result` was produced by the code below, in which *load2D*
 reads TORO files. To see how plotting is done, refer to the full source
 code.
 ::
@@ -210,11 +215,13 @@ update 3D rotations. GTSAM supports both **quaternions** and
 :math:`3 \times 3` **rotation matrices** to represent 3D rotations. The
 selection is made via the compile flag GTSAM\_USE\_QUATERNIONS.
 
-|image:
-11\_Users\_dellaert\_git\_github\_doc\_images\_sphere2500-result.png|
-Figure 9: 3D plot of sphere example (due to Michael Kaess). The very
-wrong initial estimate, derived from odometry, is shown in green. The
-optimized trajectory is shown red. Code below:
+.. _sphere2500-result:
+.. figure:: images/sphere2500-result.png
+    :align: center
+
+    3D plot of sphere example (due to Michael Kaess). The very
+    wrong initial estimate, derived from odometry, is shown in green. The
+    optimized trajectory is shown red. Code below:
 
 ::
 
@@ -230,3 +237,5 @@ optimized trajectory is shown red. Code below:
     optimizer = LevenbergMarquardtOptimizer(graph, initial);
     result = optimizer.optimizeSafely();
     plot3DTrajectory(result, 'r-', false); axis equal;
+
+.. [1] Durrant-Whyte, H.F. and Bailey, T., "Simultaneous Localisation and Mapping (SLAM): Part I The Essential Algorithms", Robotics & Automation Magazine (2006).

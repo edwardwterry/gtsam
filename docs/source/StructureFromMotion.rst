@@ -1,17 +1,20 @@
 Structure from Motion
 -----------------------
 
-|image: 16\_Users\_dellaert\_git\_github\_doc\_images\_cube.png| Figure
-14: An optimized “Structure from Motion” with 10 cameras arranged in a
-circle, observing the 8 vertices of a :math:`20 \times 20 \times 20`
-cube centered around the origin. The camera is rendered with color-coded
-axes, (RGB for XYZ) and the viewing direction is is along the positive
-Z-axis. Also shown are the 3D error covariance ellipses for both cameras
-and points.
+.. _cube:
+.. figure:: images/cube.png
+    :align: center
+
+    An optimized “Structure from Motion” with 10 cameras arranged in a
+    circle, observing the 8 vertices of a :math:`20 \times 20 \times 20`
+    cube centered around the origin. The camera is rendered with color-coded
+    axes, (RGB for XYZ) and the viewing direction is is along the positive
+    Z-axis. Also shown are the 3D error covariance ellipses for both cameras
+    and points.
 
 **Structure from Motion** (SFM) is a technique to recover a 3D
 reconstruction of the environment from corresponding visual features in
-a collection of *unordered* images, see Figure `14 <#fig_SFMExample>`__.
+a collection of *unordered* images, see :numref:`cube`.
 In GTSAM this is done using exactly the same factor graph framework,
 simply using SFM-specific measurement factors. In particular, there is a
 **projection factor** that calculates the reprojection error
@@ -43,7 +46,7 @@ point index. The specific factor type we use is a
 the C++ class ***GenericProjectionFactor<Cal3\_S2>***, where
 ***Cal3\_S2*** is the camera calibration type we choose to use (the
 standard, no-radial distortion, 5 parameter calibration matrix). As
-before landmark-based SLAM (Section `5 <#sec_Landmark_based_SLAM>`__),
+before landmark-based SLAM (:ref:`landmark-based-slam`),
 here we use symbol keys except we now use the character 'p' to denote
 points, rather than 'l' for landmark.
 

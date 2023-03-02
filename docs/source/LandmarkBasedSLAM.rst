@@ -4,24 +4,30 @@ Landmark-based SLAM
 Basics
 ~~~~~~~~~~
 
-|image: 12\_Users\_dellaert\_git\_github\_doc\_images\_FactorGraph4.png|
-Figure 10: Factor graph for landmark-based SLAM
+.. _FactorGraph4:
+.. figure:: images/FactorGraph4.png
+    :align: center
+
+    Factor graph for landmark-based SLAM
 
 In **landmark-based SLAM**, we explicitly build a map with the location
 of observed landmarks, which introduces a second type of variable in the
 factor graph besides robot poses. An example factor graph for a
-landmark-based SLAM example is shown in Figure `10 <#fig_SLAM>`__, which
+landmark-based SLAM example is shown in :numref:`FactorGraph4`, which
 shows the typical connectivity: poses are connected in an odometry
 Markov chain, and landmarks are observed from multiple poses, inducing
 binary factors. In addition, the pose :math:`x_{1}` has the usual prior
 on it.
 
-|image: 13\_Users\_dellaert\_git\_github\_doc\_images\_example2.png|
-Figure 11: The optimized result along with covariance ellipses for both
-poses (in green) and landmarks (in blue). Also shown are the trajectory
-(red) and landmark sightings (cyan).
+.. _example2:
+.. figure:: images/example2.png
+    :align: center
 
-The factor graph from Figure `10 <#fig_SLAM>`__ can be created using the
+    The optimized result along with covariance ellipses for both
+    poses (in green) and landmarks (in blue). Also shown are the trajectory
+    (red) and landmark sightings (cyan).
+
+The factor graph from :numref:`example2` can be created using the
 MATLAB code in Listing `5.1 <#listing_PlanarSLAMExample>`__. As before,
 on line 2 we create the factor graph, and Lines 8-18 create the
 prior/odometry chain we are now familiar with. However, the code on
@@ -94,31 +100,38 @@ integers. This magic extends to most factors and other classes where the
 A Larger Example
 ~~~~~~~~~~~~~~~~~~~~
 
-|image: 14\_Users\_dellaert\_git\_github\_doc\_images\_littleRobot.png|
-Figure 12: A larger example with about 100 poses and 30 or so landmarks,
-as produced by gtsam\_examples/PlanarSLAMExample\_graph.m
+.. _littleRobot:
+.. figure:: images/littleRobot.png
+    :align: center
+
+    A larger example with about 100 poses and 30 or so landmarks,
+    as produced by gtsam\_examples/PlanarSLAMExample\_graph.m
 
 GTSAM comes with a slightly larger example that is read from a .graph
-file by PlanarSLAMExample\_graph.m, shown in Figure
-`12 <#fig_littleRobot>`__. To not clutter the figure only the marginals
+file by PlanarSLAMExample\_graph.m, shown in :numref:`littleRobot`. To not clutter the figure only the marginals
 are shown, not the lines of sight. This example, with 119 (multivariate)
 variables and 517 factors optimizes in less than 10 ms.
 
 A Real-World Example
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-|image: 15\_Users\_dellaert\_git\_github\_doc\_images\_Victoria.png|
-Figure 13: Small section of optimized trajectory and landmarks (trees
-detected in a laser range finder scan) from data recorded in Sydney's
-Victoria Park (dataset due to Jose Guivant, U. Sydney).
+.. _Victoria:
+.. figure:: images/Victoria.png
+    :align: center
 
-A real-world example is shown in Figure `13 <#fig_Victoria_1>`__, using
+    Small section of optimized trajectory and landmarks (trees
+    detected in a laser range finder scan) from data recorded in Sydney's
+    Victoria Park (dataset due to Jose Guivant, U. Sydney).
+
+A real-world example is shown in :numref:`Victoria`, using
 data from a well known dataset collected in Sydney's Victoria Park,
 using a truck equipped with a laser range-finder. The covariance
 matrices in this figure were computed very efficiently, as explained in
-detail in (`Kaess and Dellaert, 2009 <#LyXCite-Kaess09ras>`__). The
+detail in [1]_. The
 exact covariances (blue, smaller ellipses) obtained by our fast
 algorithm coincide with the exact covariances based on full inversion
 (orange, mostly hidden by blue). The much larger conservative covariance
-estimates (green, large ellipses) were based on our earlier work in
-(`Kaess et al., 2008 <#LyXCite-Kaess08tro>`__).
+estimates (green, large ellipses) were based on our earlier work in [2]_.
+
+.. [1] Kaess and Dellaert 2009Kaess, M. and Dellaert, F., "Covariance Recovery from a Square Root Information Matrix for Data Association", Robotics and Autonomous Systems (2009).
+.. [2] Kaess et al. 2008Kaess, M., Ranganathan, A., and Dellaert, F., "iSAM: Incremental Smoothing and Mapping", IEEE Trans. Robotics 24, 6 (2008), pp. 1365-1378.

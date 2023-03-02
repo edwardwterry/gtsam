@@ -55,6 +55,7 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
+numfig = True
 
 html_theme_options = {
     # 'analytics_id': 'UA-XXXXXXX-1',  #  Provided by Google in your dashboard
